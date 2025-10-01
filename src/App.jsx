@@ -12,6 +12,11 @@ const Gridworld3D = () => {
   const [policy, setPolicy] = useState(null);
   const [evalResults, setEvalResults] = useState(null);
   const [gridworld, setGridworld] = useState(null);
+  
+  // Hyperparameter states
+  const [alpha, setAlpha] = useState(0.1);
+  const [gamma, setGamma] = useState(0.95);
+  const [epsilon, setEpsilon] = useState(0.1);
 
   useEffect(() => {
     const gw = new GridWorld3DClass(6, 6, 6, 0.8);
@@ -27,9 +32,10 @@ const Gridworld3D = () => {
     setEpisode(0);
     
     const numEpisodes = 1000;
-    const alpha = 0.1;
-    const gamma = 0.95;
-    const epsilon = 0.1;
+    // Use state values instead of hardcoded values
+    const alphaValue = alpha;
+    const gammaValue = gamma;
+    const epsilonValue = epsilon;
     
     const newQTable = {};
     const episodeRewards = [];
@@ -44,7 +50,7 @@ const Gridworld3D = () => {
       
       while (!done && steps < maxSteps) {
         let action;
-        if (Math.random() < epsilon) {
+        if (Math.random() < epsilonValue) {
           action = Math.floor(Math.random() * 6);
         } else {
           action = getMaxQAction(newQTable, state);
@@ -63,8 +69,8 @@ const Gridworld3D = () => {
         }
         
         const maxNextQ = Math.max(...newQTable[nextStateKey]);
-        newQTable[stateKey][action] += alpha * (
-          reward + gamma * maxNextQ - newQTable[stateKey][action]
+        newQTable[stateKey][action] += alphaValue * (
+          reward + gammaValue * maxNextQ - newQTable[stateKey][action]
         );
         
         totalReward += reward;
@@ -273,6 +279,62 @@ const Gridworld3D = () => {
         <div className="card">
           <h2>Training Control</h2>
           
+          {/* Hyperparameter Controls */}
+          <div className="hyperparameter-controls" style={{ marginBottom: '20px' }}>
+            <h3 style={{ fontSize: '16px', marginBottom: '12px' }}>Hyperparameters</h3>
+            
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>Alpha (α): Learning Rate</span>
+                <span style={{ fontWeight: 'bold', minWidth: '50px', textAlign: 'right' }}>{alpha.toFixed(2)}</span>
+              </label>
+              <input
+                type="range"
+                min="0.01"
+                max="1.0"
+                step="0.01"
+                value={alpha}
+                onChange={(e) => setAlpha(parseFloat(e.target.value))}
+                disabled={isTraining}
+                style={{ width: '100%' }}
+              />
+            </div>
+            
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>Gamma (γ): Discount Factor</span>
+                <span style={{ fontWeight: 'bold', minWidth: '50px', textAlign: 'right' }}>{gamma.toFixed(2)}</span>
+              </label>
+              <input
+                type="range"
+                min="0.01"
+                max="0.99"
+                step="0.01"
+                value={gamma}
+                onChange={(e) => setGamma(parseFloat(e.target.value))}
+                disabled={isTraining}
+                style={{ width: '100%' }}
+              />
+            </div>
+            
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>Epsilon (ε): Exploration Rate</span>
+                <span style={{ fontWeight: 'bold', minWidth: '50px', textAlign: 'right' }}>{epsilon.toFixed(2)}</span>
+              </label>
+              <input
+                type="range"
+                min="0.0"
+                max="1.0"
+                step="0.01"
+                value={epsilon}
+                onChange={(e) => setEpsilon(parseFloat(e.target.value))}
+                disabled={isTraining}
+                style={{ width: '100%' }}
+              />
+            </div>
+          </div>
+          
           <button
             onClick={startTraining}
             disabled={isTraining}
@@ -283,7 +345,7 @@ const Gridworld3D = () => {
           
           <div className="info-text">
             <p>Episodes: {episode} / 1000</p>
-            <p>Parameters: α=0.1, γ=0.95, ε=0.1</p>
+            <p>Parameters: α={alpha.toFixed(2)}, γ={gamma.toFixed(2)}, ε={epsilon.toFixed(2)}</p>
           </div>
           
           {evalResults && (
