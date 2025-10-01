@@ -56,7 +56,7 @@ This project implements Q-learning to solve a navigation problem in a 3D grid en
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/3d-gridworld-qlearning.git
+   git clone https://github.com/Deepu1728/3d-gridworld-qlearning.git
    cd 3d-gridworld-qlearning
    ```
 
@@ -152,11 +152,10 @@ The trained agent demonstrates:
 
 - **React**: UI framework
 - **Vite**: Build tool and dev server
-- **Tailwind CSS**: Styling
 - **Lucide React**: Icons
 - **JavaScript**: Core implementation
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 3d-gridworld-qlearning/
@@ -187,11 +186,11 @@ You can modify the following parameters to run experiments:
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
+##  License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 👤 Author
+##  Author
 
 **Deepansh Saha**
 - GitHub: [@Deepu1728](https://github.com/Deepu1728)
