@@ -75,7 +75,7 @@ This project implements Q-learning to solve a navigation problem in a 3D grid en
    http://localhost:5173
    ```
 
-## 🎮 Usage
+##  Usage
 
 1. **Start Training**: Click the "Start Training" button to begin Q-learning for 1000 episodes
 2. **Monitor Progress**: Watch real-time learning curves showing episode rewards
